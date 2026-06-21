@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contador de Palabras y Caracteres Gratis | ConfiguroWeb</title>
+    <meta name="description" content="Cuenta palabras, caracteres, parrafos y tiempo de lectura de tus textos gratis. Ideal para redactores, estudiantes y bloggers.">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>body { font-family: 'Plus Jakarta Sans', sans-serif; }</style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between">
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-50">
+        <div class="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between">
+            <span class="text-xl font-bold text-violet-600">Configuro<span class="text-slate-900">Web</span></span>
+            <a href="https://configuroweb.com/tag/gratis" class="text-sm font-medium text-slate-600 hover:text-violet-600">← Volver a Apps Gratuitas</a>
+        </div>
+    </header>
+    <main class="max-w-3xl mx-auto px-4 py-8 flex-grow w-full">
+        <div class="text-center mb-8">
+            <h1 class="text-2xl md:text-3xl font-bold text-slate-900 mb-2">Contador de Palabras y Caracteres</h1>
+            <p class="text-slate-500 text-sm">Analiza tus textos: palabras, caracteres, párrafos y tiempo de lectura.</p>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+            <div class="bg-white border border-slate-200 rounded-xl p-4 text-center">
+                <p id="wordCount" class="text-2xl font-extrabold text-violet-600">0</p>
+                <p class="text-xs text-slate-500 uppercase mt-1">Palabras</p>
+            </div>
+            <div class="bg-white border border-slate-200 rounded-xl p-4 text-center">
+                <p id="charCount" class="text-2xl font-extrabold text-violet-600">0</p>
+                <p class="text-xs text-slate-500 uppercase mt-1">Caracteres</p>
+            </div>
+            <div class="bg-white border border-slate-200 rounded-xl p-4 text-center">
+                <p id="paraCount" class="text-2xl font-extrabold text-violet-600">0</p>
+                <p class="text-xs text-slate-500 uppercase mt-1">Párrafos</p>
+            </div>
+            <div class="bg-white border border-slate-200 rounded-xl p-4 text-center">
+                <p id="readTime" class="text-2xl font-extrabold text-violet-600">0s</p>
+                <p class="text-xs text-slate-500 uppercase mt-1">Lectura</p>
+            </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs">
+            <textarea id="textInput" rows="12" placeholder="Escribe o pega tu texto aquí..." oninput="countAll()" class="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm focus:outline-none focus:border-violet-500 resize-none"></textarea>
+            <div class="flex justify-between items-center mt-4">
+                <div class="flex gap-4 text-xs text-slate-500">
+                    <span>Caracteres (sin espacios): <strong id="charNoSpace" class="text-slate-700">0</strong></span>
+                    <span>Oraciones: <strong id="sentCount" class="text-slate-700">0</strong></span>
+                </div>
+                <button onclick="clearText()" class="text-xs text-rose-500 hover:underline cursor-pointer">Limpiar</button>
+            </div>
+        </div>
+    </main>
+    <footer class="bg-white border-t border-slate-200 mt-12">
+        <div class="max-w-5xl mx-auto px-4 py-6 text-center text-xs text-slate-400">&copy; 2026 ConfiguroWeb.</div>
+    </footer>
+    <script>
+        function countAll() {
+            const text = document.getElementById('textInput').value;
+            const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+            const chars = text.length;
+            const charsNoSpace = text.replace(/\s/g, '').length;
+            const paragraphs = text.trim() ? text.split(/\n+/).filter(p => p.trim()).length : 0;
+            const sentences = text.trim() ? text.split(/[.!?]+/).filter(s => s.trim()).length : 0;
+            const seconds = Math.ceil((words / 200) * 60);
+            const readTime = seconds < 60 ? seconds + 's' : Math.floor(seconds / 60) + 'm ' + (seconds % 60) + 's';
+
+            document.getElementById('wordCount').innerText = words;
+            document.getElementById('charCount').innerText = chars;
+            document.getElementById('paraCount').innerText = paragraphs;
+            document.getElementById('readTime').innerText = readTime;
+            document.getElementById('charNoSpace').innerText = charsNoSpace;
+            document.getElementById('sentCount').innerText = sentences;
+        }
+        function clearText() {
+            document.getElementById('textInput').value = '';
+            countAll();
+        }
+    </script>
+</body>
+</html>
